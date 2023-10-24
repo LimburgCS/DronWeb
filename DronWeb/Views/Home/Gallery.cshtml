@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Galeria";
+}
+@Styles.Render("~/Content/Site.css")
+
+<h1  align="center"><strong>galeria</strong></h1>
+
+
+<body class="gallerylayout" >
+
+    @*<div>
+            <button class="btn btn-primary choose" type="button" onclick="AddPhoto()">
+                Dodaj zdjęcie
+            </button>
+
+            <input class="btn btn-primary" type="file"
+                   id="avatar" name="avatar"
+                   accept="image/png, image/jpeg">
+        </div>*@
+    <img class="galleryimg" src="~/images/forest_mountain.jpg" alt="logo3" />
+    <div >
+
+        <input type="file" id="file_photo" onchange="preview_image()" name="item_image"> </
+        <img id='output_image' />
+
+        <div class="full-img" id="fullimgbox">
+            <img src="./image/img.jpg" id="fullImg" />
+            <span class="buttonX" onclick="closeFullImg()">Zamknij</span>
+        </div>
+
+
+
+
+        <div class="gallery">
+            <img src="~/images/DJI_0147.jpg" onclick="openFullImg(this.src)" />
+            <img src="~/images/DJI_0148.jpg" onclick="openFullImg(this.src)" />
+            <img src="~/images/DJI_0157.jpg" onclick="openFullImg(this.src)" />
+            <img src="~/images/DJI_0179.jpg" onclick="openFullImg(this.src)" />
+            <img src="~/images/DJI_0181.jpg" onclick="openFullImg(this.src)" />
+            <img src="~/images/DJI_0278.JPG" onclick="openFullImg(this.src)" />
+        </div>
+
+    </div>
+
+    <script>
+
+        var fullimgbox = document.getElementById("fullimgbox");
+        var fullImg = document.getElementById("fullImg");
+
+        function openFullImg(pic) { /*pic wybiera klikniete zdjecie*/
+            fullimgbox.style.display = "flex";
+            fullImg.src = pic;
+        }
+
+        function closeFullImg() {
+            fullimgbox.style.display = "none";
+        }
+
+
+
+
+    </script>
+
+</body>
+
+@section scripts{
+    <script type="text/javascript">
+        function preview_image(event) {
+
+            document.getElementById('output_image').style.display = 'block';
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('output_image');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        };
+
+
+    </script>
+
+
+}
+
+

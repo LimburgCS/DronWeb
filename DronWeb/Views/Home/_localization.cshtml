@@ -1,0 +1,59 @@
+﻿@*@model IEnumerable<DronWeb.Models.Domains.Localization>
+@{
+    ViewBag.Title = "_localization";
+}
+
+
+
+<form id="filterform" class="row gy-2 gx-3 align-items-center">
+
+    <div class="col-auto">
+        @Html.TextBoxFor(x => x.FilterLocalization.City, new { @class = "form-control", placeholder = "Miasto" })
+
+    </div>
+
+    <div class="col-auto">
+        @Html.DropDownListFor(x => x.FilterLocalization.ProvinceId,
+            new SelectList(Model.Provinces, "Id", "Name"),
+            "--wybierz kategorię--",
+            new { @class = "form-control" })
+    </div>
+
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Szukaj</button>
+    </div>
+</form>
+
+<div>
+    @Html.Partial("LocalizationTable.cshtml", Model.Localization)
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#filterForm').submit(function () {
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Localization", "Home")",
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#localization').html(data);
+                    },
+                    error: function (data) {
+                        alert(data.message)
+                    },
+                    dataType: "html"
+                });
+
+                return false;
+            });
+
+        });
+
+    </script>
+}*@

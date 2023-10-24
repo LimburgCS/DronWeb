@@ -1,0 +1,107 @@
+﻿@model DronWeb.Models.ViewModels.AddLocalizatonViewModel
+@{
+    ViewBag.Title = Model.heading;
+}
+
+<h1 class="heading">@Model.heading</h1>
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/Site.css")
+@Scripts.Render("~/bundles/modernizr")
+<style>
+
+    .tableAddLokalization {
+        margin-left: 30%;
+        position: relative;
+        z-index: 2;
+    }
+
+    .textArea {
+        position: absolute;
+        left: 300px;
+        margin-top: 20px;
+    }
+</style>
+
+<h2 style="text-align:center;">Dodawanie nowej lokalizacji</h2>
+
+<div class="localizationPosition">
+    <img class="localizationPositionimage" src="~/images/localizationposition.jpg" alt="logo" />
+
+    <div class="tableAddLokalization">
+
+
+
+
+
+
+
+        @using (Html.BeginForm("AddLocalization", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <p class="alert alert-info mb-4 mt-4 col-6 ">
+                Pola Nick, miasto, województwo, wykorzystany sprzęt i opis są
+                wymagane
+            </p>
+
+            @Html.HiddenFor(x => x.Localization.Id)
+    <div class="row">
+
+
+        <div class="row-cols-lg-2">
+            @Html.ValidationMessageFor(x => x.Localization.Name)
+            @Html.LabelFor(x => x.Localization.Name, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.Localization.Name, new { @class = "form-control", autofocus = "autofocus" })
+
+        </div>
+
+        <div class="rows-lg-2">
+            @Html.ValidationMessageFor(x => x.Localization.City)
+            @Html.LabelFor(x => x.Localization.City, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.Localization.City, new { @class = "form-control" })
+
+        </div>
+
+        <div class="rows-lg-2">
+            @Html.ValidationMessageFor(x => x.Localization.ProvinceId)
+            @Html.LabelFor(x => x.Localization.ProvinceId, new { @class = "form-label" })
+            @Html.DropDownListFor(x => x.Localization.ProvinceId,
+           new SelectList(Model.Provinces, "Id", "Name"), "--wybierz województwo--",
+           new { @class = "form-control" })
+
+        </div>
+        
+
+
+        <div class="rows-lg-2">
+            @Html.ValidationMessageFor(x => x.Localization.equipment)
+            @Html.LabelFor(x => x.Localization.equipment, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.Localization.equipment, new { @class = "form-control" })
+        </div>
+
+        <div class="textArea col-4">
+            @Html.ValidationMessageFor(x => x.Localization.description)
+            @Html.TextAreaFor(x => x.Localization.description, new { @class = "form-control", placeholder = "Opis lokalizacji", rows = "10" })
+
+        </div>
+    </div>
+            <div class="row">
+
+            </div>
+
+
+
+            <div class="input-group mt-3">
+                <input type="file" class="form-control" id="image" name="image" />
+            </div>
+            <br />
+
+            <div class="buttonAddLocalization">
+                <input type="submit" class="btn btn-primary btn-lg mb-5" />
+
+            </div>
+        }
+
+
+
+    </div>
+</div>

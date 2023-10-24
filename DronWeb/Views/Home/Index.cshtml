@@ -1,0 +1,84 @@
+﻿@model DronWeb.Models.ViewModels.AddLocalizatonViewModel
+@{
+    ViewBag.Title = "Strona główna";
+}
+
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/Site.css")
+@Scripts.Render("~/bundles/modernizr")
+
+
+
+
+
+
+<div class="firstlayout">
+
+    <div class="secimgtext"> SkyDron</div>
+    <img class="firstimg" src="~/images/forest_mountain.jpg" alt="logo" />
+    <img class="secondimg" src="~/images/gallery_wallpaper.jpg" alt="logo2" />
+
+</div>
+    <div class="secondlayouts">
+        
+    </div>
+
+
+    @*<div class="secondlayout">
+
+        <img class="secondimg" src="~/images/forest_mountain.jpg" alt="logo2" />
+    </div>*@
+
+
+
+
+
+
+
+
+@section Scripts
+{
+    @*ustawienie zdjęcia jako strony (dopasowane)*@
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.dimensions.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var $winwidth = $(window).width();
+            $("img.firstimg").attr({
+                width: $winwidth
+            });
+            $(window).bind("resize", function () {
+                var $winwidth = $(window).width();
+                $("img.firstimg").attr({
+                    width: $winwidth
+                });
+            });
+        });
+
+
+        //$(document).scroll(function () {
+        //    //Show element after user scrolls 800px
+        //    var y = $(this).scrollTop();
+        //    if (y > 300) {
+        //        $('.secondimg').fadeIn();
+        //    } else {
+        //        $('.secondimg').fadeOut();
+        //    }
+
+        //    // Show element after user scrolls past
+        //    // the top edge of its parent
+        //    $('secondimg').each(function () {
+        //        var t = $(this).parent().offset().top;
+        //        if (y > t) {
+        //            $(this).fadeIn();
+        //        } else {
+        //            $(this).fadeOut();
+        //        }
+        //    });
+        //});
+    </script>
+
+}
+
+
+

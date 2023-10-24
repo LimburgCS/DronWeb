@@ -1,0 +1,15 @@
+﻿@model IEnumerable<DronWeb.Models.Domains.Localization>
+@{
+    ViewBag.Title = "Photo";
+}
+
+
+
+
+    @foreach(var photo in Model)
+            {
+                <tr>
+                    <th> @photo.Image </th>
+                </tr>
+            }
+
