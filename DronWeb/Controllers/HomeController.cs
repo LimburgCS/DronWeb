@@ -19,6 +19,8 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Web.UI.HtmlControls;
 using System.Data.SqlClient;
 using System.Web.Security;
+using PagedList;
+using PagedList.Mvc;
 
 namespace DronWeb.Controllers
 {
@@ -99,16 +101,27 @@ namespace DronWeb.Controllers
 
 
 
-        public ActionResult Localization(string search,string searchBy, string sortBy, string SelectedProvinces)
+        public ActionResult Localization(string search, string currentSort, string sortBy, string SelectedProvinces, int? page)
         {
             //var userId = User.Identity.GetUserId();
 
-
+            
             ViewBag.SortCityParameter = string.IsNullOrEmpty(sortBy) ? "Name desc" : "";
             ViewBag.DateSortParm = sortBy == "Date" ? "date_desc" : "Date";
            // SelectedProvinces = Request.Form["SelectedProvinces"];
             var province = _context.Provinces.ToList();
             ViewBag.Provinces = new SelectList(province, "Id", "Name");
+
+            if (search != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                search = currentSort;
+            }
+            ViewBag.currentSort = search;
+            
             
             var localizations = _localizationRepository.GetLocalizations(search, SelectedProvinces);
             switch (sortBy)
@@ -116,9 +129,10 @@ namespace DronWeb.Controllers
                 case "Name desc":
                     localizations = localizations.OrderByDescending(x => x.City);
                     break;
-                case "Date":
+                case "date":
                     localizations = localizations.OrderBy(x => x.CreatedDate);
                     break;
+
 
                 default:
                     localizations = localizations.OrderBy(x => x.City);
@@ -126,11 +140,14 @@ namespace DronWeb.Controllers
                     
             }
 
- 
+            int pageSize = 2;
+            int pageNumber = (page ?? 1); //oznacza, że zwraca wartość page, jeśli ma wartość, lub zwraca wartość 1, jeśli page ma wartość null.
 
-            
 
-            return View("LocalizationTable", localizations);
+
+
+
+            return View("LocalizationTable", localizations.ToPagedList(pageNumber,pageSize));
 
 
 

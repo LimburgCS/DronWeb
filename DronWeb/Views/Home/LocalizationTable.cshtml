@@ -1,4 +1,6 @@
-﻿@model IEnumerable<DronWeb.Models.Domains.Localization>
+﻿@model  PagedList.IPagedList<DronWeb.Models.Domains.Localization>
+@using PagedList.Mvc;
+
 
 @{
     ViewBag.Title = "Lokalizacja";
@@ -31,10 +33,9 @@
     }
 
     .tableHad {
-        position:relative;
-        left:500px;
-        top:50px;
-        
+        position: relative;
+        left: 500px;
+        top: 50px;
     }
 </style>
 
@@ -43,141 +44,150 @@
 
     @if (Model != null && Model.Any())
     {
-        if (Model != null)
+
+
+        <table class="tableHad">
+            <tr>
+                <th>
+                    @Html.ActionLink("miasto", "Localization", "Home", "City", new { sortBy = ViewBag.SortCityParameter, @class = "btn btn-primary" })
+                </th>
+                <th>
+                    @Html.ActionLink("Data utworzenia", "Localization", new { sortBy = ViewBag.DateSortParm, @class = "btn btn-primary" })
+                </th>
+                <th>
+                    @using (Html.BeginForm("Localization", "Home", FormMethod.Get))
+                    {
+                        @*<b></b> @Html.RadioButton("searchBy", "City") <label> Miasto </label>
+                            <b></b> @Html.RadioButton("searchBy", "Province") <label> Województwo </label>*@
+
+                        <input type="text" name="search" placeholder="szukaj" />
+                        <input type="submit" value="Szukaj" class="btn btn-outline-primary" />
+
+                        @*@Html.TextBox("search") <input type="submit" value="Szukaj" id="txtSearch" />*@
+                    }
+                </th>
+                <th>
+                    @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+                    {
+                        @Html.DropDownList("SelectedProvinces", ViewBag.Provinces as SelectList,
+                       "Wybierz województwo",
+                       new { id = "SelectProvince" })
+
+                        <input type="submit" value="Szukaj" class="btn btn-outline-primary" />
+                    }
+                </th>
+            </tr>
+        </table>
+
+        foreach (var localization in Model)
         {
 
-            <table class="tableHad">
-                <tr>
+
+
+            <table class="tablee" id="filter">
+
+
+
+                <tr class="headtable">
+                    <th scope="col" style="font-size:small;"><strong>Autor</strong></th>
+                    <th scope="col" style="font-size:small;"><strong>Miasto</strong></th>
+                    <th scope="col" style="font-size:small;"><strong>Województwo</strong></th>
+                    <th scope="col" style="font-size:small;"><strong>Wykorzystany sprzęt</strong></th>
+                    <th scope="col" style="font-size:small;"><strong>data</strong></th>
                     <th>
-                       @Html.ActionLink("miasto", "Localization", "Home", "City" , new { sortBy = ViewBag.SortCityParameter, @class = "btn btn-primary"})
+                        <button class="btn btn-danger" btn-sm id="Update"
+                                onclick="deleteLocalization('@localization.Id', this)">
+                            Usuń
+                        </button>
                     </th>
                     <th>
-                        @Html.ActionLink("CreatedDate", "Localization", new {sortBy = ViewBag.DateSortParm, @class = "btn  btn-primary"})
+                        <a class="btn btn-primary" href="@Url.Action("AddLocalization", "Home", new { id = localization.Id })">edycja</a>
                     </th>
-                    <th>
-                        @using (Html.BeginForm("Localization", "Home", FormMethod.Get))
-                        {
-                            @*<b></b> @Html.RadioButton("searchBy", "City") <label> Miasto </label>
-                                <b></b> @Html.RadioButton("searchBy", "Province") <label> Województwo </label>*@
-
-                            <input type="text" name="search" placeholder="szukaj" />
-                            <input type="submit" value="Szukaj" class="btn btn-outline-primary" />
-
-                            @*@Html.TextBox("search") <input type="submit" value="Szukaj" id="txtSearch" />*@
-                        }
-                    </th>
-                    <th>
-                        @using (Html.BeginForm("Search", "Home", FormMethod.Post))
-                        {
-                            @Html.DropDownList("SelectedProvinces", ViewBag.Provinces as SelectList,
-                           "Wybierz województwo",
-                           new { id = "SelectProvince" })
-
-                            <input type="submit" value="Szukaj" class="btn btn-outline-primary"/>
-                        }
-                    </th>
-                </tr>
-            </table>
-
-            foreach (var localization in Model)
-            {
-
-
-
-                <table class="tablee" id="filter">
-
-
-
-                    <tr class="headtable">
-                        <th scope="col" style="font-size:small;"><strong>Autor</strong></th>
-                        <th scope="col" style="font-size:small;"><strong>Miasto</strong></th>
-                        <th scope="col" style="font-size:small;"><strong>Województwo</strong></th>
-                        <th scope="col" style="font-size:small;"><strong>Wykorzystany sprzęt</strong></th>
-                        <th scope="col" style="font-size:small;"><strong>data</strong></th>
-                        <th>
-                            <button class="btn btn-danger" btn-sm id="Update"
-                                    onclick="deleteLocalization('@localization.Id', this)">
-                                Usuń
-                            </button>
-                        </th>
-                        <th>
-                            <a class="btn btn-primary" href="@Url.Action("AddLocalization", "Home", new { id = localization.Id })">edycja</a>
-                        </th>
-                        @*@using (Html.BeginForm("Update", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                            {
-                                <th>
-                                    <button class="btn btn-light" btn-sm>
-                                        Edytuj
-                                    </button>
-                                </th>
-                            }*@
-
-                    </tr>
-
-
-                    <tr class="">
-
-                        <th style="font-weight:normal;">
-                            @localization.Name
-                        </th>
-                        <th style="font-weight:normal;"> @localization.City</th>
-                        <th style="font-weight:normal;"> @localization.provinces.Name</th>
-                        <th style="font-weight:normal;"> @localization.equipment</th>
-                        <th style="font-weight:normal;">@localization.CreatedDate.ToString("dd-MM-yyyy")</th>
-
-                    </tr>
-
-
-
-
-
-
-                    <tr>
-                        <th scope="col">Opis</th>
-                        <th colspan="2" style="font-weight:normal;"> @localization.description</th>
-
-                        @if (localization.Image != null)
-                        {
-                            <th rowspan="1" class="LocalizationtableImg">
-                                <img src="@Url.Action("RetriveImage", "Home", new { id = localization.Id })"
-                                     style="width: 400px; height: auto; margin-top: 10px; cursor: pointer; "
-                                     onclick="openFullImg(this.src)"
-                                     alt="Nie wybrano zdjęcia" />
-                            </th>
-                        }
-                        else
+                    @*@using (Html.BeginForm("Update", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             <th>
-                                Nie wybrano zdjęcia
+                                <button class="btn btn-light" btn-sm>
+                                    Edytuj
+                                </button>
                             </th>
-                        }
+                        }*@
+
+                </tr>
 
 
-                    </tr>
+                <tr class="">
+
+                    <th style="font-weight:normal;">
+                        @localization.Name
+
+                    </th>
+                    <th style="font-weight:normal;"> @localization.City</th>
+                    <th style="font-weight:normal;"> @localization.provinces.Name</th>
+                    <th style="font-weight:normal;"> @localization.equipment</th>
+                    <th style="font-weight:normal;">@localization.CreatedDate.ToString("dd-MM-yyyy")</th>
+
+                </tr>
 
 
-                </table>
-            }
 
 
 
 
+                <tr>
+                    <th scope="col">Opis</th>
+                    <th colspan="2" style="font-weight:normal;"> @localization.description</th>
+
+                    @if (localization.Image != null)
+                    {
+                        <th rowspan="1" class="LocalizationtableImg">
+                            <img src="@Url.Action("RetriveImage", "Home", new { id = localization.Id })"
+                                 style="width: 400px; height: auto; margin-top: 10px; cursor: pointer; "
+                                 onclick="openFullImg(this.src)"
+                                 alt="Nie wybrano zdjęcia" />
+                        </th>
+                    }
+                    else
+                    {
+                        <th>
+                            Nie wybrano zdjęcia
+                        </th>
+                    }
+
+
+                </tr>
+
+
+            </table>
         }
-        else
-        {
-            <div>
-                brak pozycji
-            </div>
-        }
+
+
+
+
+
     }
-
+    else
+    {
+        <div>
+            brak pozycji
+        </div>
+    }
 
     <div class="full-img" id="fullimgbox">
         <img src="./image/img.jpg" id="fullImg" />
         <span class="buttonX" onclick="closeFullImg()">Zamknij</span>
     </div>
 
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Localization",
+        new { page, sortOrder = ViewBag.SortCityParameter, currentSort = ViewBag.CurrentSort }))
+
 </div>
+
+
+
+
 
 <script>
 
