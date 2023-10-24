@@ -24,6 +24,10 @@
 
 <h2 style="text-align:center;">Dodawanie nowej lokalizacji</h2>
 
+<div id="map" style="height:500px; width:400px; position:absolute; left:1000px;"></div>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
 <div class="localizationPosition">
     <img class="localizationPositionimage" src="~/images/localizationposition.jpg" alt="logo" />
 
@@ -44,46 +48,46 @@
             </p>
 
             @Html.HiddenFor(x => x.Localization.Id)
-    <div class="row">
+            <div class="row">
 
 
-        <div class="row-cols-lg-2">
-            @Html.ValidationMessageFor(x => x.Localization.Name)
-            @Html.LabelFor(x => x.Localization.Name, new { @class = "form-label" })
-            @Html.TextBoxFor(x => x.Localization.Name, new { @class = "form-control", autofocus = "autofocus" })
+                <div class="row-cols-lg-2">
+                    @Html.ValidationMessageFor(x => x.Localization.Name)
+                    @Html.LabelFor(x => x.Localization.Name, new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.Localization.Name, new { @class = "form-control", autofocus = "autofocus" })
 
-        </div>
+                </div>
 
-        <div class="rows-lg-2">
-            @Html.ValidationMessageFor(x => x.Localization.City)
-            @Html.LabelFor(x => x.Localization.City, new { @class = "form-label" })
-            @Html.TextBoxFor(x => x.Localization.City, new { @class = "form-control" })
+                <div class="rows-lg-2">
+                    @Html.ValidationMessageFor(x => x.Localization.City)
+                    @Html.LabelFor(x => x.Localization.City, new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.Localization.City, new { @class = "form-control" })
 
-        </div>
+                </div>
 
-        <div class="rows-lg-2">
-            @Html.ValidationMessageFor(x => x.Localization.ProvinceId)
-            @Html.LabelFor(x => x.Localization.ProvinceId, new { @class = "form-label" })
-            @Html.DropDownListFor(x => x.Localization.ProvinceId,
-           new SelectList(Model.Provinces, "Id", "Name"), "--wybierz województwo--",
-           new { @class = "form-control" })
+                <div class="rows-lg-2">
+                    @Html.ValidationMessageFor(x => x.Localization.ProvinceId)
+                    @Html.LabelFor(x => x.Localization.ProvinceId, new { @class = "form-label" })
+                    @Html.DropDownListFor(x => x.Localization.ProvinceId,
+                   new SelectList(Model.Provinces, "Id", "Name"), "--wybierz województwo--",
+                   new { @class = "form-control" })
 
-        </div>
-        
+                </div>
 
 
-        <div class="rows-lg-2">
-            @Html.ValidationMessageFor(x => x.Localization.equipment)
-            @Html.LabelFor(x => x.Localization.equipment, new { @class = "form-label" })
-            @Html.TextBoxFor(x => x.Localization.equipment, new { @class = "form-control" })
-        </div>
 
-        <div class="textArea col-4">
-            @Html.ValidationMessageFor(x => x.Localization.description)
-            @Html.TextAreaFor(x => x.Localization.description, new { @class = "form-control", placeholder = "Opis lokalizacji", rows = "10" })
+                <div class="rows-lg-2">
+                    @Html.ValidationMessageFor(x => x.Localization.equipment)
+                    @Html.LabelFor(x => x.Localization.equipment, new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.Localization.equipment, new { @class = "form-control" })
+                </div>
 
-        </div>
-    </div>
+                <div class="textArea col-4">
+                    @Html.ValidationMessageFor(x => x.Localization.description)
+                    @Html.TextAreaFor(x => x.Localization.description, new { @class = "form-control", placeholder = "Opis lokalizacji", rows = "10" })
+
+                </div>
+            </div>
             <div class="row">
 
             </div>
@@ -105,3 +109,11 @@
 
     </div>
 </div>
+
+<script>
+        var map = L.map('map').setView([51.239, 22.576], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+</script>
