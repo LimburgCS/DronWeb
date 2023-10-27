@@ -20,6 +20,8 @@ namespace DronWeb.Models
         
         public DbSet<Province> Provinces { get; set; }
 
+     
+
 
 
 

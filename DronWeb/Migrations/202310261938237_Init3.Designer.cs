@@ -7,13 +7,13 @@ namespace DronWeb.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class Init21 : IMigrationMetadata
+    public sealed partial class Init3 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Init21));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Init3));
         
         string IMigrationMetadata.Id
         {
-            get { return "202310182042529_Init21"; }
+            get { return "202310261938237_Init3"; }
         }
         
         string IMigrationMetadata.Source

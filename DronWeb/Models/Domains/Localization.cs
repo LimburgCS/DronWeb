@@ -32,9 +32,6 @@ namespace DronWeb.Models.Domains
         [Required(ErrorMessage = "Pole lokalizacja jest wymagane")]
         public string City { get; set; }
 
-
-
-
        
         public int ProvinceId { get; set; }
             
@@ -47,11 +44,12 @@ namespace DronWeb.Models.Domains
         [Display(Name ="Data utworzenia")]
         public DateTime CreatedDate { get; set; }
 
- 
-       
+
+        public float latitude { get; set; }
+        public float longitude { get; set; }
 
 
-       
+
         public byte[] Image { get; set; }
 
 

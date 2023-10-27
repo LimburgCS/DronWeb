@@ -22,14 +22,17 @@
     }
 </style>
 
+
 <h2 style="text-align:center;">Dodawanie nowej lokalizacji</h2>
 
-<div id="map" style="height:500px; width:400px; position:absolute; left:1000px;"></div>
+<div id="map" style="height:500px; width:400px; position:absolute; left:1010px; z-index:3; cursor:pointer;"></div>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
 <div class="localizationPosition">
     <img class="localizationPositionimage" src="~/images/localizationposition.jpg" alt="logo" />
+
+
 
     <div class="tableAddLokalization">
 
@@ -87,10 +90,18 @@
                     @Html.TextAreaFor(x => x.Localization.description, new { @class = "form-control", placeholder = "Opis lokalizacji", rows = "10" })
 
                 </div>
+                <div class="rows-lg-2">
+
+                    
+                    @Html.TextBoxFor(x => x.Localization.latitude, new { @id = "latitude" })
+                    @Html.TextBoxFor(x => x.Localization.longitude, new { @id = "longitude" })
+
+                </div>
             </div>
             <div class="row">
 
             </div>
+
 
 
 
@@ -108,12 +119,23 @@
 
 
     </div>
+
 </div>
 
 <script>
-        var map = L.map('map').setView([51.239, 22.576], 13);
+    var map = L.map('map').setView([52.028, 19.545], 6);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-        }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    map.on('click', function (e) {
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+
+        // Wprowadź współrzędne do textboxów
+        document.getElementById('latitude').value = lat;
+        document.getElementById('longitude').value = lng;
+    });
+
 </script>

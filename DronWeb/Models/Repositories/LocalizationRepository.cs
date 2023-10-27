@@ -28,11 +28,13 @@ namespace DronWeb.Models.Repositories
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    return context.Localizations.Where(x => x.City.Contains(search)).Include(x => x.provinces).ToList();
+                    return context.Localizations.Where(x => x.City.Contains(search)).Include(x => x.provinces).
+                        ToList();
                 }
                 
 
-                return context.Localizations.Where(x=>x.City == x.City).Include(x => x.provinces).AsQueryable().ToList(); // jesli chce pobierać dane z innej tabeli musi być include, wtedy w widku moge łączyć z innymi tabelami!!
+                return context.Localizations.Where(x=>x.City == x.City).Include(x => x.provinces).
+                    AsQueryable().ToList(); // jesli chce pobierać dane z innej tabeli musi być include, wtedy w widku moge łączyć z innymi tabelami!!
 
                 
                     
@@ -40,22 +42,6 @@ namespace DronWeb.Models.Repositories
             }
         }
 
-        public void SearchBy(string search)
-        {
-            using (var context = new ApplicationDbContext())
-            {
-                if (search == "City")
-                {
-                    context.Localizations.Where(x => x.City == search || search == null).ToList();
-
-                }
-                else
-                {
-                    context.Localizations.Where(x => x.provinces.Name.StartsWith(search)).ToList();
-                }
-            }
-            
-        }
 
         public List<Province> GetProvinces ()
         {
@@ -87,6 +73,8 @@ namespace DronWeb.Models.Repositories
                 context.SaveChanges();
             }
         }
+
+
         public void  Update(Localization localization, HttpPostedFileBase image)
         {
             using (var context = new ApplicationDbContext())

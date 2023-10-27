@@ -155,16 +155,25 @@ namespace DronWeb.Controllers
         }
 
         [HttpPost]
-        public ActionResult Search(int SelectedProvinces)
+        public ActionResult Search(string search, string currentSort, int SelectedProvinces, int? page)
         {
             var province = _context.Provinces.ToList();
+            if (search != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                search = currentSort;
+            }
+            ViewBag.currentSort = search;
 
-            
             ViewBag.Provinces = new SelectList(province,"Id", "Name");
             var selProvince = _localizationRepository.GetSearch(SelectedProvinces);
-            
-            
-            return View("LocalizationTable", selProvince);
+            int pageSize = 2;
+            int pageNumber = (page ?? 1); //oznacza, że zwraca wartość page, jeśli ma wartość, lub zwraca wartość 1, jeśli page ma wartość null.
+
+            return View("LocalizationTable", selProvince.ToPagedList(pageNumber,pageSize));
         }
 
 
@@ -182,15 +191,18 @@ namespace DronWeb.Controllers
                 return View("addLocalization", vm);
             }
 
-            
-                if (localization.Id == 0)
+
+
+
+
+            if (localization.Id == 0)
                 {
 
                     image = Request.Files["image"];
 
                     _localizationRepository.Add(localization, image);
 
-                }
+            }
                 else
                 {
                       image = Request.Files["image"];
