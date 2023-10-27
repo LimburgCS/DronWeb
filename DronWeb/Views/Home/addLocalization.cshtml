@@ -20,18 +20,29 @@
         left: 300px;
         margin-top: 20px;
     }
+    .form{
+        max-width:50%;
+        float:left;
+        position:sticky;
+    }
+    #map{
+        float:left;
+        max-width:50%;
+        position:sticky;
+    }
 </style>
 
 
 <h2 style="text-align:center;">Dodawanie nowej lokalizacji</h2>
 
-<div id="map" style="height:500px; width:400px; position:absolute; left:1010px; z-index:3; cursor:pointer;"></div>
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
 <div class="localizationPosition">
     <img class="localizationPositionimage" src="~/images/localizationposition.jpg" alt="logo" />
 
+    
 
 
     <div class="tableAddLokalization">
@@ -40,7 +51,7 @@
 
 
 
-
+        <div class="form">
 
         @using (Html.BeginForm("AddLocalization", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
@@ -85,14 +96,14 @@
                     @Html.TextBoxFor(x => x.Localization.equipment, new { @class = "form-control" })
                 </div>
 
-                <div class="textArea col-4">
+                <div class="textArea col-5">
                     @Html.ValidationMessageFor(x => x.Localization.description)
                     @Html.TextAreaFor(x => x.Localization.description, new { @class = "form-control", placeholder = "Opis lokalizacji", rows = "10" })
 
                 </div>
                 <div class="rows-lg-2">
 
-                    
+
                     @Html.TextBoxFor(x => x.Localization.latitude, new { @id = "latitude" })
                     @Html.TextBoxFor(x => x.Localization.longitude, new { @id = "longitude" })
 
@@ -115,8 +126,9 @@
 
             </div>
         }
+            </div>
 
-
+        <div id="map" style="height:500px; width:400px; cursor:pointer;"></div>
 
     </div>
 
